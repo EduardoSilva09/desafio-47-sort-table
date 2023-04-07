@@ -4,8 +4,6 @@ const thTeam = document.getElementById("thTeam");
 const thClass = document.getElementById("thClass");
 const thScore = document.getElementById("thScore");
 const thNote = document.getElementById("thNote");
-const ASCENDANT = 1;
-const DESCENDANT = 2;
 
 thPosition.addEventListener("click", sortNumericColumn);
 thTeam.addEventListener("click", sortTextColumn);
@@ -61,22 +59,36 @@ function testNumberDesc(row, nextRow) {
   return GetFloat(row.innerHTML) < GetFloat(nextRow.innerHTML);
 }
 
-function sortTextColumn(e) {
+function sortTextColumnAsc(e) {
+  sortColumn(e, testText);
+}
+
+function sortTextColumnDesc(e) {
+  sortColumn(e, testTextDesc);
+}
+
+function toggleSort(e, ascSort, descSort) {
   if (e.target.classList.contains("desc")) {
     e.target.classList.remove("desc");
-    sortColumn(e, testText);
+    ascSort(e);
   } else {
     e.target.classList.add("desc");
-    sortColumn(e, testTextDesc);
+    descSort(e);
   }
 }
 
+function sortTextColumn(e) {
+  toggleSort(e, sortTextColumnAsc, sortTextColumnDesc);
+}
+
+function sortNumericColumnAsc(e) {
+  sortColumn(e, testNumber);
+}
+
+function sortNumericColumnDesc(e) {
+  sortColumn(e, testNumberDesc);
+}
+
 function sortNumericColumn(e) {
-  if (e.target.classList.contains("desc")) {
-    e.target.classList.remove("desc");
-    sortColumn(e, testNumber);
-  } else {
-    e.target.classList.add("desc");
-    sortColumn(e, testNumberDesc);
-  }
+  toggleSort(e, sortNumericColumnAsc, sortNumericColumnDesc);
 }
